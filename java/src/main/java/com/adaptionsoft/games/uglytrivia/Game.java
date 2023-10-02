@@ -56,8 +56,7 @@ public class Game {
                 isGettingOutOfPenaltyBox = true;
                 ui.showPlayerOutOfPenaltyBox(players.get(currentPlayer));
 
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                moveToNextPlace(roll);
 
                 ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
                 ui.showCurrentCategory(currentCategory());
@@ -67,13 +66,16 @@ public class Game {
                 ui.showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer));
             }
         } else {
-            places[currentPlayer] = places[currentPlayer] + roll;
-            if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+            moveToNextPlace(roll);
 
             ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
             ui.showCurrentCategory(currentCategory());
             ui.showQuestion(getQuestion());
         }
+    }
+
+    private void moveToNextPlace(int roll) {
+        places[currentPlayer] = (places[currentPlayer] + roll) % 12;
     }
 
     private String getQuestion() {
