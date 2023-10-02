@@ -14,89 +14,106 @@ public class GameRunner {
 	public static void main(String[] args) {
 		UI ui = new ConsoleUI(System.out);
 		Game aGame = new Game();
-		
+
 		aGame.add("Chet");
 		aGame.add("Pat");
 		aGame.add("Sue");
 
+		boolean notAWinner;
 		// 5
 		// correct
 		aGame.roll(5);
-		aGame.wasCorrectlyAnswered();
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
 
 		// 2
 		// correct
 		aGame.roll(2);
-		aGame.wasCorrectlyAnswered();
-
-		// 5
-		// correct
-		aGame.roll(5);
-		aGame.wasCorrectlyAnswered();
-
-		// 1
-		// correct
-		aGame.roll(1);
-		aGame.wasCorrectlyAnswered();
-
-		// 3
-		// correct
-		aGame.roll(3);
-		aGame.wasCorrectlyAnswered();
-
-		// 4
-		// correct
-		aGame.roll(4);
-		aGame.wrongAnswer();
-
-		// 1
-		// correct
-		aGame.roll(1);
-		aGame.wasCorrectlyAnswered();
-
-		// 4
-		// correct
-		aGame.roll(4);
-		aGame.wasCorrectlyAnswered();
-
-		// 3
-		// correct
-		aGame.roll(3);
-		aGame.wasCorrectlyAnswered();
-
-		// 2
-		// correct
-		aGame.roll(2);
-		aGame.wasCorrectlyAnswered();
-
-		// 3
-		// correct
-		aGame.roll(3);
-		aGame.wasCorrectlyAnswered();
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
 
 		// 5
 		// correct
 		aGame.roll(5);
-		aGame.wasCorrectlyAnswered();
-
-		// 2
-		// correct
-		aGame.roll(2);
-		aGame.wasCorrectlyAnswered();
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
 
 		// 1
 		// correct
 		aGame.roll(1);
-		aGame.wasCorrectlyAnswered();
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
 
-		// 2
+		// 3
 		// correct
-		aGame.roll(2);
-		// aGame.wasCorrectlyAnswered();
+		aGame.roll(3);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
 
 		// 4
 		// correct
 		aGame.roll(4);
-		aGame.wasCorrectlyAnswered();
+		notAWinner = aGame.wrongAnswer();
+		if (!notAWinner) return;
+
+		// 1
+		// correct
+		aGame.roll(1);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 4
+		// correct
+		aGame.roll(4);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 3
+		// correct
+		aGame.roll(3);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 2
+		// correct
+		aGame.roll(2);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 3
+		// correct
+		aGame.roll(3);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 5
+		// correct
+		aGame.roll(5);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 2
+		// correct
+		aGame.roll(2);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 1
+		// correct
+		aGame.roll(1);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 2
+		// correct
+		aGame.roll(2);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
+
+		// 4
+		// correct
+		aGame.roll(4);
+		notAWinner = aGame.wasCorrectlyAnswered();
+		if (!notAWinner) return;
 	}
 }
