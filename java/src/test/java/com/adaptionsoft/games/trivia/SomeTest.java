@@ -4,49 +4,64 @@ package com.adaptionsoft.games.trivia;
 import com.adaptionsoft.games.uglytrivia.ConsoleUI;
 import com.adaptionsoft.games.uglytrivia.Game;
 import com.adaptionsoft.games.uglytrivia.UI;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SomeTest {
 
-    @Test
-    public void testCasePasses() throws Exception {
+    public static Stream<Arguments> provideParameters() throws IOException {
+        File file = new File("src/test/resources/input.txt");
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        List<String> playerNames = List.of(reader.readLine().split(" "));
+
+        List<Parameter> parameters = new ArrayList<>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] params = line.trim().split(" ");
+            int roll = Integer.parseInt(params[0]);
+            boolean correct = params[1].equals("correct") ? true : params[1].equals("incorrect") ? false : false;
+            parameters.add(new Parameter(roll, correct));
+        }
+
+        String expectedOutput = Files.readString(Path.of("src/test/resources/output.txt"), StandardCharsets.UTF_8);
+        return Stream.of(Arguments.of(playerNames, parameters, expectedOutput));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideParameters")
+    public void testCasePasses(List<String> playerNames, List<Parameter> parameters, String expectedOutput) {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         PrintStream stream = new PrintStream(outStream, true, StandardCharsets.UTF_8);
         UI ui = new ConsoleUI(stream);
-        Game aGame = new Game(ui);
+        Game game = new Game(ui);
 
-
-        File file = new File("src/main/resources/input.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = reader.readLine();
-        String[] playerNames = line.split(" ");
         for (String playerName : playerNames) {
-            aGame.add(playerName);
+            game.add(playerName);
         }
 
-        while ((line = reader.readLine()) != null) {
-            int roll = Integer.parseInt(line.trim());
-            aGame.roll(roll);
-            String answer = reader.readLine().trim();
-            if (answer.equalsIgnoreCase("correct")) {
-                boolean notAWinner = aGame.wasCorrectlyAnswered();
+        for (Parameter parameter : parameters) {
+            game.roll(parameter.getRoll());
+            if (parameter.isCorrect()) {
+                boolean notAWinner = game.wasCorrectlyAnswered();
                 if (!notAWinner) break;
-            } else if (answer.equalsIgnoreCase("incorrect")) {
-                boolean notAWinner = aGame.wrongAnswer();
+            } else {
+                boolean notAWinner = game.wrongAnswer();
                 if (!notAWinner) break;
             }
         }
 
-        String expected = Files.readString(Path.of("src/main/resources/output.txt"), StandardCharsets.UTF_8);
         String actual = outStream.toString();
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actual);
     }
 }
