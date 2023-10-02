@@ -89,6 +89,10 @@ public class Game {
         return "Rock";
     }
 
+    /**
+     * @return Should program continue. If the {@code currentPlayer} wins the game,
+     * the game should exit. Otherwise, the game should go on.
+     */
     public boolean wasCorrectlyAnswered() {
         if (currentPlayer.isInPenaltyBox()) {
             if (currentPlayer.isGettingOutOfPenaltyBox()) {
@@ -96,10 +100,10 @@ public class Game {
                 currentPlayer.incrementPurse();
                 ui.showPlayerGoldCount(currentPlayer);
 
-                boolean winner = didPlayerWin();
-                currentPlayer = getNextCurrentPlayer();
+                if (currentPlayer.didPlayerWin()) return false;
 
-                return winner;
+                currentPlayer = getNextCurrentPlayer();
+                return true;
             } else {
                 currentPlayer = getNextCurrentPlayer();
                 return true;
@@ -109,13 +113,16 @@ public class Game {
             currentPlayer.incrementPurse();
             ui.showPlayerGoldCount(currentPlayer);
 
-            boolean winner = didPlayerWin();
-            currentPlayer = getNextCurrentPlayer();
+            if (currentPlayer.didPlayerWin()) return false;
 
-            return winner;
+            currentPlayer = getNextCurrentPlayer();
+            return true;
         }
     }
 
+    /**
+     * @return Should program continue. In case of {@code wrongAnswer}, it should always.
+     */
     public boolean wrongAnswer() {
         ui.showIncorrectAnswer();
         ui.showPlayerSentToPenaltyBox(currentPlayer);
@@ -136,7 +143,4 @@ public class Game {
         return players.get((foundIndex + 1) % players.size());
     }
 
-    private boolean didPlayerWin() {
-        return !(currentPlayer.getPurse() == 6);
-    }
 }

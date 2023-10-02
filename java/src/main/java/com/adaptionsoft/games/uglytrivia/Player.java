@@ -20,4 +20,8 @@ public class Player {
     public void incrementPurse() {
         purse++;
     }
+
+    boolean didPlayerWin() {
+        return getPurse() == 6;
+    }
 }
