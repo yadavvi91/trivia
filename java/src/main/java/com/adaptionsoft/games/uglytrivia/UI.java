@@ -1,25 +1,25 @@
 package com.adaptionsoft.games.uglytrivia;
 
 public interface UI {
-    void showAddedPlayer(String playerName, int size);
+    void showAddedPlayer(Player player, int size);
 
-    void showPlayerNotGettingOutOfPenaltyBox(String currentPlayerName);
+    void showPlayerNotGettingOutOfPenaltyBox(Player player);
 
     void showCurrentCategory(String currentCategory);
 
-    void showNewPlayerLocation(String currentPlayerName, int currentPlayerLocation);
+    void showNewPlayerLocation(Player player);
 
-    void showPlayerOutOfPenaltyBox(String currentPlayerName);
+    void showPlayerOutOfPenaltyBox(Player player);
 
-    void showDiceRoll(String currentPlayerName, int roll);
+    void showDiceRoll(Player player, int roll);
 
     void showQuestion(String question);
 
-    void showPlayerGoldCount(String currentPlayerName, int currentPlayerGoldCoins);
+    void showPlayerGoldCount(Player player);
 
     void showCorrectAnswer();
 
-    void showPlayerSentToPenaltyBox(String currentPlayerName);
+    void showPlayerSentToPenaltyBox(Player player);
 
     void showIncorrectAnswer();
 }

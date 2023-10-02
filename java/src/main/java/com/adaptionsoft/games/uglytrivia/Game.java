@@ -32,7 +32,7 @@ public class Game {
     public boolean add(String playerName) {
         Player player = Player.of(playerName, false, false, 0, 0);
         players.add(player);
-        ui.showAddedPlayer(player.getPlayerName(), players.size());
+        ui.showAddedPlayer(player, players.size());
         return true;
     }
 
@@ -42,26 +42,26 @@ public class Game {
 
     public void roll(int roll) {
         if (currentPlayer == null) currentPlayer = players.getFirst();
-        ui.showDiceRoll(currentPlayer.getPlayerName(), roll);
+        ui.showDiceRoll(currentPlayer, roll);
 
         if (currentPlayer.isInPenaltyBox()) {
             if (roll % 2 != 0) {
                 currentPlayer.setGettingOutOfPenaltyBox(true);
-                ui.showPlayerOutOfPenaltyBox(currentPlayer.getPlayerName());
+                ui.showPlayerOutOfPenaltyBox(currentPlayer);
 
                 currentPlayer.moveToNextPlace(roll);
 
-                ui.showNewPlayerLocation(currentPlayer.getPlayerName(), currentPlayer.getPlace());
+                ui.showNewPlayerLocation(currentPlayer);
                 ui.showCurrentCategory(currentCategory());
                 ui.showQuestion(getQuestion());
             } else {
                 currentPlayer.setGettingOutOfPenaltyBox(false);
-                ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer.getPlayerName());
+                ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
             }
         } else {
             currentPlayer.moveToNextPlace(roll);
 
-            ui.showNewPlayerLocation(currentPlayer.getPlayerName(), currentPlayer.getPlace());
+            ui.showNewPlayerLocation(currentPlayer);
             ui.showCurrentCategory(currentCategory());
             ui.showQuestion(getQuestion());
         }
@@ -94,7 +94,7 @@ public class Game {
             if (currentPlayer.isGettingOutOfPenaltyBox()) {
                 ui.showCorrectAnswer();
                 currentPlayer.incrementPurse();
-                ui.showPlayerGoldCount(currentPlayer.getPlayerName(), currentPlayer.getPurse());
+                ui.showPlayerGoldCount(currentPlayer);
 
                 boolean winner = didPlayerWin();
                 currentPlayer = getNextCurrentPlayer();
@@ -107,7 +107,7 @@ public class Game {
         } else {
             ui.showCorrectAnswer();
             currentPlayer.incrementPurse();
-            ui.showPlayerGoldCount(currentPlayer.getPlayerName(), currentPlayer.getPurse());
+            ui.showPlayerGoldCount(currentPlayer);
 
             boolean winner = didPlayerWin();
             currentPlayer = getNextCurrentPlayer();
@@ -118,7 +118,7 @@ public class Game {
 
     public boolean wrongAnswer() {
         ui.showIncorrectAnswer();
-        ui.showPlayerSentToPenaltyBox(currentPlayer.getPlayerName());
+        ui.showPlayerSentToPenaltyBox(currentPlayer);
         currentPlayer.setInPenaltyBox(true);
 
         currentPlayer = getNextCurrentPlayer();
