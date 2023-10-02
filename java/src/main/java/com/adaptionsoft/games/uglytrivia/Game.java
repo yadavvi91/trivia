@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
-    List<String> players = new ArrayList<>();
+	private final UI ui;
+
+	List<String> players = new ArrayList<>();
     int[] places = new int[6];
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
@@ -19,7 +21,8 @@ public class Game {
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
     
-    public  Game(){
+    public  Game(UI ui){
+		this.ui = ui;
     	for (int i = 0; i < 50; i++) {
 			popQuestions.addLast("Pop Question " + i);
 			scienceQuestions.addLast("Science Question " + i);
@@ -32,7 +35,7 @@ public class Game {
 		return (howManyPlayers() >= 2);
 	}
 
-	public boolean add(String playerName, PrintStream out) {
+	public boolean add(String playerName) {
 		
 		
 	    players.add(playerName);
@@ -40,37 +43,32 @@ public class Game {
 	    purses[howManyPlayers()] = 0;
 	    inPenaltyBox[howManyPlayers()] = false;
 
-		showAddedPlayer(playerName, players.size(), out);
+		ui.showAddedPlayer(playerName, players.size());
 		return true;
-	}
-
-	private void showAddedPlayer(String playerName, int size, PrintStream out) {
-		out.println(playerName + " was added");
-		out.println("They are player number " + size);
 	}
 
 	public int howManyPlayers() {
 		return players.size();
 	}
 
-	public void roll(int roll, PrintStream out) {
-		showDiceRoll(players.get(currentPlayer), roll, out);
+	public void roll(int roll) {
+		ui.showDiceRoll(players.get(currentPlayer), roll);
 
 		if (inPenaltyBox[currentPlayer]) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true;
-				showPlayerOutOfPenaltyBox(players.get(currentPlayer), out);
+				ui.showPlayerOutOfPenaltyBox(players.get(currentPlayer));
 
 				places[currentPlayer] = places[currentPlayer] + roll;
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-				showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer], out);
-				showCurrentCategory(out);
+				ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
+				ui.showCurrentCategory(currentCategory());
 				String question = askQuestion();
-				showQuestion(question, out);
+				ui.showQuestion(question);
 			} else {
 				isGettingOutOfPenaltyBox = false;
-				showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer), out);
+				ui.showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer));
 			}
 			
 		} else {
@@ -78,33 +76,12 @@ public class Game {
 			places[currentPlayer] = places[currentPlayer] + roll;
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-			showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer], out);
-			showCurrentCategory(out);
+			ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
+			ui.showCurrentCategory(currentCategory());
 			String question = askQuestion();
-			showQuestion(question, out);
+			ui.showQuestion(question);
 		}
 		
-	}
-
-	private void showPlayerNotGettingOutOfPenaltyBox(String currentPlayerName, PrintStream out) {
-		out.println(currentPlayerName + " is not getting out of the penalty box");
-	}
-
-	private void showCurrentCategory(PrintStream out) {
-		out.println("The category is " + currentCategory());
-	}
-
-	private void showNewPlayerLocation(String currentPlayerName, int currentPlayerLocation, PrintStream out) {
-		out.println(currentPlayerName + "'s new location is " + currentPlayerLocation);
-	}
-
-	private void showPlayerOutOfPenaltyBox(String currentPlayerName, PrintStream out) {
-		out.println(currentPlayerName + " is getting out of the penalty box");
-	}
-
-	private void showDiceRoll(String currentPlayerName, int roll, PrintStream out) {
-		out.println(currentPlayerName + " is the current player");
-		out.println("They have rolled a " + roll);
 	}
 
 	private String askQuestion() {
@@ -124,10 +101,6 @@ public class Game {
 		return question;
 	}
 
-	private void showQuestion(String question, PrintStream out) {
-		out.println(question);
-	}
-
 	private String currentCategory() {
 		if (places[currentPlayer] == 0) return "Pop";
 		if (places[currentPlayer] == 4) return "Pop";
@@ -141,12 +114,12 @@ public class Game {
 		return "Rock";
 	}
 
-	public boolean wasCorrectlyAnswered(PrintStream out) {
+	public boolean wasCorrectlyAnswered() {
 		if (inPenaltyBox[currentPlayer]){
 			if (isGettingOutOfPenaltyBox) {
-				showCorrectAnswer(out);
+				ui.showCorrectAnswer();
 				purses[currentPlayer]++;
-				showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer], out);
+				ui.showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer]);
 
 				boolean winner = didPlayerWin();
 				currentPlayer++;
@@ -163,9 +136,9 @@ public class Game {
 			
 		} else {
 
-			showCorrectAnswer(out);
+			ui.showCorrectAnswer();
 			purses[currentPlayer]++;
-			showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer], out);
+			ui.showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer]);
 
 			boolean winner = didPlayerWin();
 			currentPlayer++;
@@ -175,30 +148,14 @@ public class Game {
 		}
 	}
 
-	private void showPlayerGoldCount(String currentPlayerName, int currentPlayerGoldCoins, PrintStream out) {
-		out.println(currentPlayerName + " now has " + currentPlayerGoldCoins + " Gold Coins.");
-	}
-
-	private void showCorrectAnswer(PrintStream out) {
-		out.println("Answer was correct!!!!");
-	}
-
-	public boolean wrongAnswer(PrintStream out){
-		showIncorrectAnswer(out);
-		showPlayerSentToPenaltyBox(players.get(currentPlayer), out);
+	public boolean wrongAnswer(){
+		ui.showIncorrectAnswer();
+		ui.showPlayerSentToPenaltyBox(players.get(currentPlayer));
 		inPenaltyBox[currentPlayer] = true;
 		
 		currentPlayer++;
 		if (currentPlayer == players.size()) currentPlayer = 0;
 		return true;
-	}
-
-	private void showPlayerSentToPenaltyBox(String currentPlayerName, PrintStream out) {
-		out.println(currentPlayerName + " was sent to the penalty box");
-	}
-
-	private void showIncorrectAnswer(PrintStream out) {
-		out.println("Question was incorrectly answered");
 	}
 
 
