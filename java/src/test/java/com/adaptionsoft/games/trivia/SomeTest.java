@@ -24,7 +24,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class SomeTest {
     private static final List<TestFile> testFiles = Arrays.asList(
         TestFile.of("src/test/resources/input.txt", "src/test/resources/output.txt"),
-        TestFile.of("src/test/resources/input2.txt", "src/test/resources/output2.txt")
+        TestFile.of("src/test/resources/input2.txt", "src/test/resources/output2.txt"),
+        TestFile.of("src/test/resources/input3.txt", "src/test/resources/output3.txt")
     );
 
     @RequiredArgsConstructor(staticName = "of")
