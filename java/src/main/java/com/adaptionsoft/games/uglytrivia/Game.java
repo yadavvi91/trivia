@@ -61,8 +61,7 @@ public class Game {
 
                 ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
                 ui.showCurrentCategory(currentCategory());
-                String question = askQuestion();
-                ui.showQuestion(question);
+                ui.showQuestion(getQuestion());
             } else {
                 isGettingOutOfPenaltyBox = false;
                 ui.showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer));
@@ -73,12 +72,11 @@ public class Game {
 
             ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
             ui.showCurrentCategory(currentCategory());
-            String question = askQuestion();
-            ui.showQuestion(question);
+            ui.showQuestion(getQuestion());
         }
     }
 
-    private String askQuestion() {
+    private String getQuestion() {
         String question = "";
         if (currentCategory() == "Pop") {
             question = popQuestions.removeFirst();
