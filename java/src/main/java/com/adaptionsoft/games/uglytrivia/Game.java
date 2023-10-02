@@ -11,14 +11,16 @@ public class Game {
     int[] places = new int[6];
     int[] purses = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
+    List<Player> playerList = new ArrayList<>();
 
     LinkedList<String> popQuestions = new LinkedList<>();
     LinkedList<String> scienceQuestions = new LinkedList<>();
     LinkedList<String> sportsQuestions = new LinkedList<>();
     LinkedList<String> rockQuestions = new LinkedList<>();
 
-    int currentPlayer = 0;
+    int currentPlayerNumber = 0;
     boolean isGettingOutOfPenaltyBox;
+    Player currentPlayer;
 
     public Game(UI ui) {
         this.ui = ui;
@@ -35,12 +37,16 @@ public class Game {
     }
 
     public boolean add(String playerName) {
+        Player player = Player.of(playerName, false, false, 0, 0);
+        playerList.add(player);
+        ui.showAddedPlayer(player.getPlayerName(), playerList.size());
+
         players.add(playerName);
         places[howManyPlayers()] = 0;
         purses[howManyPlayers()] = 0;
         inPenaltyBox[howManyPlayers()] = false;
 
-        ui.showAddedPlayer(playerName, players.size());
+        // ui.showAddedPlayer(playerName, players.size());
         return true;
     }
 
@@ -49,33 +55,34 @@ public class Game {
     }
 
     public void roll(int roll) {
-        ui.showDiceRoll(players.get(currentPlayer), roll);
+        if (currentPlayer == null) currentPlayer = playerList.getFirst();
+        ui.showDiceRoll(players.get(currentPlayerNumber), roll);
 
-        if (inPenaltyBox[currentPlayer]) {
+        if (inPenaltyBox[currentPlayerNumber]) {
             if (roll % 2 != 0) {
                 isGettingOutOfPenaltyBox = true;
-                ui.showPlayerOutOfPenaltyBox(players.get(currentPlayer));
+                ui.showPlayerOutOfPenaltyBox(players.get(currentPlayerNumber));
 
                 moveToNextPlace(roll);
 
-                ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
+                ui.showNewPlayerLocation(players.get(currentPlayerNumber), places[currentPlayerNumber]);
                 ui.showCurrentCategory(currentCategory());
                 ui.showQuestion(getQuestion());
             } else {
                 isGettingOutOfPenaltyBox = false;
-                ui.showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer));
+                ui.showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayerNumber));
             }
         } else {
             moveToNextPlace(roll);
 
-            ui.showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer]);
+            ui.showNewPlayerLocation(players.get(currentPlayerNumber), places[currentPlayerNumber]);
             ui.showCurrentCategory(currentCategory());
             ui.showQuestion(getQuestion());
         }
     }
 
     private void moveToNextPlace(int roll) {
-        places[currentPlayer] = (places[currentPlayer] + roll) % 12;
+        places[currentPlayerNumber] = (places[currentPlayerNumber] + roll) % 12;
     }
 
     private String getQuestion() {
@@ -87,43 +94,43 @@ public class Game {
     }
 
     private String currentCategory() {
-        if (places[currentPlayer] == 0) return "Pop";
-        if (places[currentPlayer] == 4) return "Pop";
-        if (places[currentPlayer] == 8) return "Pop";
-        if (places[currentPlayer] == 1) return "Science";
-        if (places[currentPlayer] == 5) return "Science";
-        if (places[currentPlayer] == 9) return "Science";
-        if (places[currentPlayer] == 2) return "Sports";
-        if (places[currentPlayer] == 6) return "Sports";
-        if (places[currentPlayer] == 10) return "Sports";
+        if (places[currentPlayerNumber] == 0) return "Pop";
+        if (places[currentPlayerNumber] == 4) return "Pop";
+        if (places[currentPlayerNumber] == 8) return "Pop";
+        if (places[currentPlayerNumber] == 1) return "Science";
+        if (places[currentPlayerNumber] == 5) return "Science";
+        if (places[currentPlayerNumber] == 9) return "Science";
+        if (places[currentPlayerNumber] == 2) return "Sports";
+        if (places[currentPlayerNumber] == 6) return "Sports";
+        if (places[currentPlayerNumber] == 10) return "Sports";
         return "Rock";
     }
 
     public boolean wasCorrectlyAnswered() {
-        if (inPenaltyBox[currentPlayer]) {
+        if (inPenaltyBox[currentPlayerNumber]) {
             if (isGettingOutOfPenaltyBox) {
                 ui.showCorrectAnswer();
-                purses[currentPlayer]++;
-                ui.showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer]);
+                purses[currentPlayerNumber]++;
+                ui.showPlayerGoldCount(players.get(currentPlayerNumber), purses[currentPlayerNumber]);
 
                 boolean winner = didPlayerWin();
-                currentPlayer++;
-                if (currentPlayer == players.size()) currentPlayer = 0;
+                currentPlayerNumber++;
+                if (currentPlayerNumber == players.size()) currentPlayerNumber = 0;
 
                 return winner;
             } else {
-                currentPlayer++;
-                if (currentPlayer == players.size()) currentPlayer = 0;
+                currentPlayerNumber++;
+                if (currentPlayerNumber == players.size()) currentPlayerNumber = 0;
                 return true;
             }
         } else {
             ui.showCorrectAnswer();
-            purses[currentPlayer]++;
-            ui.showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer]);
+            purses[currentPlayerNumber]++;
+            ui.showPlayerGoldCount(players.get(currentPlayerNumber), purses[currentPlayerNumber]);
 
             boolean winner = didPlayerWin();
-            currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
+            currentPlayerNumber++;
+            if (currentPlayerNumber == players.size()) currentPlayerNumber = 0;
 
             return winner;
         }
@@ -131,15 +138,15 @@ public class Game {
 
     public boolean wrongAnswer() {
         ui.showIncorrectAnswer();
-        ui.showPlayerSentToPenaltyBox(players.get(currentPlayer));
-        inPenaltyBox[currentPlayer] = true;
+        ui.showPlayerSentToPenaltyBox(players.get(currentPlayerNumber));
+        inPenaltyBox[currentPlayerNumber] = true;
 
-        currentPlayer++;
-        if (currentPlayer == players.size()) currentPlayer = 0;
+        currentPlayerNumber++;
+        if (currentPlayerNumber == players.size()) currentPlayerNumber = 0;
         return true;
     }
 
     private boolean didPlayerWin() {
-        return !(purses[currentPlayer] == 6);
+        return !(purses[currentPlayerNumber] == 6);
     }
 }
