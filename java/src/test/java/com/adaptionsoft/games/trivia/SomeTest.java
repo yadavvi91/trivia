@@ -24,7 +24,7 @@ public class SomeTest {
         Game aGame = new Game(ui);
 
 
-        File file = new File("src/main/resources/input.txt");
+        File file = new File("src/test/resources/input.txt");
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = reader.readLine();
         String[] playerNames = line.split(" ");
@@ -45,7 +45,7 @@ public class SomeTest {
             }
         }
 
-        String expected = Files.readString(Path.of("src/main/resources/output.txt"), StandardCharsets.UTF_8);
+        String expected = Files.readString(Path.of("src/test/resources/output.txt"), StandardCharsets.UTF_8);
         String actual = outStream.toString();
         assertEquals(expected, actual);
     }
