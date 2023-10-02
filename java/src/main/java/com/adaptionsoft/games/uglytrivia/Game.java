@@ -3,9 +3,10 @@ package com.adaptionsoft.games.uglytrivia;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Game {
-    ArrayList players = new ArrayList();
+    List<String> players = new ArrayList<>();
     int[] places = new int[6];
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
@@ -39,36 +40,39 @@ public class Game {
 	    purses[howManyPlayers()] = 0;
 	    inPenaltyBox[howManyPlayers()] = false;
 
-		out.println(playerName + " was added");
-	    out.println("They are player number " + players.size());
+		showAddedPlayer(playerName, players.size(), out);
 		return true;
 	}
-	
+
+	private void showAddedPlayer(String playerName, int size, PrintStream out) {
+		out.println(playerName + " was added");
+		out.println("They are player number " + size);
+	}
+
 	public int howManyPlayers() {
 		return players.size();
 	}
 
 	public void roll(int roll, PrintStream out) {
-		out.println(players.get(currentPlayer) + " is the current player");
-		out.println("They have rolled a " + roll);
-		
+		showDiceRoll(players.get(currentPlayer), roll, out);
+
 		if (inPenaltyBox[currentPlayer]) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true;
-				
-				out.println(players.get(currentPlayer) + " is getting out of the penalty box");
+
+				showPlayerOutOfPenaltyBox(players.get(currentPlayer), out);
 				places[currentPlayer] = places[currentPlayer] + roll;
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-				
+
 				out.println(players.get(currentPlayer)
-						+ "'s new location is " 
+						+ "'s new location is "
 						+ places[currentPlayer]);
 				out.println("The category is " + currentCategory());
 				askQuestion(out);
 			} else {
 				out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
 				isGettingOutOfPenaltyBox = false;
-				}
+			}
 			
 		} else {
 		
@@ -82,6 +86,15 @@ public class Game {
 			askQuestion(out);
 		}
 		
+	}
+
+	private void showPlayerOutOfPenaltyBox(String currentPlayerName, PrintStream out) {
+		out.println(currentPlayerName + " is getting out of the penalty box");
+	}
+
+	private void showDiceRoll(String currentPlayerName, int roll, PrintStream out) {
+		out.println(currentPlayerName + " is the current player");
+		out.println("They have rolled a " + roll);
 	}
 
 	private void askQuestion(PrintStream out) {
