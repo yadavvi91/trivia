@@ -13,27 +13,90 @@ public class GameRunner {
 
 	public static void main(String[] args) {
 		UI ui = new ConsoleUI(System.out);
-		Game aGame = new Game(ui);
+		Game aGame = new Game();
 		
 		aGame.add("Chet");
 		aGame.add("Pat");
 		aGame.add("Sue");
-		
-		Random rand = new Random();
-	
-		do {
-			
-			aGame.roll(rand.nextInt(5) + 1);
-			
-			if (rand.nextInt(9) == 7) {
-				notAWinner = aGame.wrongAnswer();
-			} else {
-				notAWinner = aGame.wasCorrectlyAnswered();
-			}
-			
-			
-			
-		} while (notAWinner);
-		
+
+		// 5
+		// correct
+		aGame.roll(5);
+		aGame.wasCorrectlyAnswered();
+
+		// 2
+		// correct
+		aGame.roll(2);
+		aGame.wasCorrectlyAnswered();
+
+		// 5
+		// correct
+		aGame.roll(5);
+		aGame.wasCorrectlyAnswered();
+
+		// 1
+		// correct
+		aGame.roll(1);
+		aGame.wasCorrectlyAnswered();
+
+		// 3
+		// correct
+		aGame.roll(3);
+		aGame.wasCorrectlyAnswered();
+
+		// 4
+		// correct
+		aGame.roll(4);
+		aGame.wrongAnswer();
+
+		// 1
+		// correct
+		aGame.roll(1);
+		aGame.wasCorrectlyAnswered();
+
+		// 4
+		// correct
+		aGame.roll(4);
+		aGame.wasCorrectlyAnswered();
+
+		// 3
+		// correct
+		aGame.roll(3);
+		aGame.wasCorrectlyAnswered();
+
+		// 2
+		// correct
+		aGame.roll(2);
+		aGame.wasCorrectlyAnswered();
+
+		// 3
+		// correct
+		aGame.roll(3);
+		aGame.wasCorrectlyAnswered();
+
+		// 5
+		// correct
+		aGame.roll(5);
+		aGame.wasCorrectlyAnswered();
+
+		// 2
+		// correct
+		aGame.roll(2);
+		aGame.wasCorrectlyAnswered();
+
+		// 1
+		// correct
+		aGame.roll(1);
+		aGame.wasCorrectlyAnswered();
+
+		// 2
+		// correct
+		aGame.roll(2);
+		// aGame.wasCorrectlyAnswered();
+
+		// 4
+		// correct
+		aGame.roll(4);
+		aGame.wasCorrectlyAnswered();
 	}
 }
