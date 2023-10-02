@@ -13,7 +13,7 @@ public class GameRunner {
 
 	public static void main(String[] args) {
 		UI ui = new ConsoleUI(System.out);
-		Game aGame = new Game();
+		Game aGame = new Game(ui);
 
 		aGame.add("Chet");
 		aGame.add("Pat");
