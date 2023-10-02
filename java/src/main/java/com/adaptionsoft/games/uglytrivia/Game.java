@@ -79,20 +79,11 @@ public class Game {
     }
 
     private String getQuestion() {
-        String question = "";
-        if (currentCategory() == "Pop") {
-            question = popQuestions.removeFirst();
-        }
-        if (currentCategory() == "Science") {
-            question = scienceQuestions.removeFirst();
-        }
-        if (currentCategory() == "Sports") {
-            question = sportsQuestions.removeFirst();
-        }
-        if (currentCategory() == "Rock") {
-            question = rockQuestions.removeFirst();
-        }
-        return question;
+        if (currentCategory().equalsIgnoreCase("Pop")) return popQuestions.removeFirst();
+        if (currentCategory().equalsIgnoreCase("Science")) return scienceQuestions.removeFirst();
+        if (currentCategory().equalsIgnoreCase("Sports")) return sportsQuestions.removeFirst();
+        // if (currentCategory().equalsIgnoreCase("Rock")) rockQuestions.removeFirst();
+        return rockQuestions.removeFirst();
     }
 
     private String currentCategory() {
