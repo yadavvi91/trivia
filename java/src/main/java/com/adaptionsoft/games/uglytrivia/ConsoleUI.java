@@ -38,6 +38,7 @@ public class ConsoleUI implements UI {
 
     @Override
     public void showDiceRoll(String currentPlayerName, int roll) {
+        out.println();
         out.println(currentPlayerName + " is the current player");
         out.println("They have rolled a " + roll);
     }
