@@ -11,10 +11,10 @@ public class Game {
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
     
-    LinkedList popQuestions = new LinkedList();
-    LinkedList scienceQuestions = new LinkedList();
-    LinkedList sportsQuestions = new LinkedList();
-    LinkedList rockQuestions = new LinkedList();
+    LinkedList<String> popQuestions = new LinkedList<>();
+	LinkedList<String> scienceQuestions = new LinkedList<>();
+	LinkedList<String> sportsQuestions = new LinkedList<>();
+	LinkedList<String> rockQuestions = new LinkedList<>();
     
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
@@ -64,11 +64,10 @@ public class Game {
 				places[currentPlayer] = places[currentPlayer] + roll;
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
-				out.println(players.get(currentPlayer)
-						+ "'s new location is "
-						+ places[currentPlayer]);
-				out.println("The category is " + currentCategory());
-				askQuestion(out);
+				showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer], out);
+				showCurrentCategory(out);
+				String question = askQuestion();
+				showQuestion(question, out);
 			} else {
 				out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
 				isGettingOutOfPenaltyBox = false;
@@ -78,14 +77,21 @@ public class Game {
 		
 			places[currentPlayer] = places[currentPlayer] + roll;
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
-			
-			out.println(players.get(currentPlayer)
-					+ "'s new location is " 
-					+ places[currentPlayer]);
-			out.println("The category is " + currentCategory());
-			askQuestion(out);
+
+			showNewPlayerLocation(players.get(currentPlayer), places[currentPlayer], out);
+			showCurrentCategory(out);
+			String question = askQuestion();
+			showQuestion(question, out);
 		}
 		
+	}
+
+	private void showCurrentCategory(PrintStream out) {
+		out.println("The category is " + currentCategory());
+	}
+
+	private void showNewPlayerLocation(String currentPlayerName, int currentPlayerLocation, PrintStream out) {
+		out.println(currentPlayerName + "'s new location is " + currentPlayerLocation);
 	}
 
 	private void showPlayerOutOfPenaltyBox(String currentPlayerName, PrintStream out) {
@@ -97,18 +103,27 @@ public class Game {
 		out.println("They have rolled a " + roll);
 	}
 
-	private void askQuestion(PrintStream out) {
-		if (currentCategory() == "Pop")
-			out.println(popQuestions.removeFirst());
-		if (currentCategory() == "Science")
-			out.println(scienceQuestions.removeFirst());
-		if (currentCategory() == "Sports")
-			out.println(sportsQuestions.removeFirst());
-		if (currentCategory() == "Rock")
-			out.println(rockQuestions.removeFirst());
+	private String askQuestion() {
+		String question = "";
+		if (currentCategory() == "Pop") {
+			question = popQuestions.removeFirst();
+		}
+		if (currentCategory() == "Science") {
+			question = scienceQuestions.removeFirst();
+		}
+		if (currentCategory() == "Sports") {
+			question = sportsQuestions.removeFirst();
+		}
+		if (currentCategory() == "Rock") {
+			question = rockQuestions.removeFirst();
+		}
+		return question;
 	}
-	
-	
+
+	private void showQuestion(String question, PrintStream out) {
+		out.println(question);
+	}
+
 	private String currentCategory() {
 		if (places[currentPlayer] == 0) return "Pop";
 		if (places[currentPlayer] == 4) return "Pop";
