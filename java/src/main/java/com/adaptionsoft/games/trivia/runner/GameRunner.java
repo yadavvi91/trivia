@@ -2,7 +2,9 @@
 package com.adaptionsoft.games.trivia.runner;
 import java.util.Random;
 
+import com.adaptionsoft.games.uglytrivia.ConsoleUI;
 import com.adaptionsoft.games.uglytrivia.Game;
+import com.adaptionsoft.games.uglytrivia.UI;
 
 
 public class GameRunner {
@@ -10,7 +12,8 @@ public class GameRunner {
 	private static boolean notAWinner;
 
 	public static void main(String[] args) {
-		Game aGame = new Game();
+		UI ui = new ConsoleUI(System.out);
+		Game aGame = new Game(ui);
 		
 		aGame.add("Chet");
 		aGame.add("Pat");
