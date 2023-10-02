@@ -59,8 +59,8 @@ public class Game {
 		if (inPenaltyBox[currentPlayer]) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true;
-
 				showPlayerOutOfPenaltyBox(players.get(currentPlayer), out);
+
 				places[currentPlayer] = places[currentPlayer] + roll;
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
@@ -69,8 +69,8 @@ public class Game {
 				String question = askQuestion();
 				showQuestion(question, out);
 			} else {
-				out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
 				isGettingOutOfPenaltyBox = false;
+				showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer), out);
 			}
 			
 		} else {
@@ -84,6 +84,10 @@ public class Game {
 			showQuestion(question, out);
 		}
 		
+	}
+
+	private void showPlayerNotGettingOutOfPenaltyBox(String currentPlayerName, PrintStream out) {
+		out.println(currentPlayerName + " is not getting out of the penalty box");
 	}
 
 	private void showCurrentCategory(PrintStream out) {
