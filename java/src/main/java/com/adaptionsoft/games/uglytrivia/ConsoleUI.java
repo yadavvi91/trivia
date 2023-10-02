@@ -10,14 +10,14 @@ public class ConsoleUI implements UI {
     }
 
     @Override
-    public void showAddedPlayer(String playerName, int size) {
-        out.println(playerName + " was added");
+    public void showAddedPlayer(Player player, int size) {
+        out.println(player.getPlayerName() + " was added");
         out.println("They are player number " + size);
     }
 
     @Override
-    public void showPlayerNotGettingOutOfPenaltyBox(String currentPlayerName) {
-        out.println(currentPlayerName + " is not getting out of the penalty box");
+    public void showPlayerNotGettingOutOfPenaltyBox(Player player) {
+        out.println(player.getPlayerName() + " is not getting out of the penalty box");
     }
 
     @Override
@@ -26,19 +26,19 @@ public class ConsoleUI implements UI {
     }
 
     @Override
-    public void showNewPlayerLocation(String currentPlayerName, int currentPlayerLocation) {
-        out.println(currentPlayerName + "'s new location is " + currentPlayerLocation);
+    public void showNewPlayerLocation(Player player) {
+        out.println(player.getPlayerName() + "'s new location is " + player.getPlace());
     }
 
     @Override
-    public void showPlayerOutOfPenaltyBox(String currentPlayerName) {
-        out.println(currentPlayerName + " is getting out of the penalty box");
+    public void showPlayerOutOfPenaltyBox(Player player) {
+        out.println(player.getPlayerName() + " is getting out of the penalty box");
     }
 
     @Override
-    public void showDiceRoll(String currentPlayerName, int roll) {
+    public void showDiceRoll(Player player, int roll) {
         out.println();
-        out.println(currentPlayerName + " is the current player");
+        out.println(player.getPlayerName() + " is the current player");
         out.println("They have rolled a " + roll);
     }
 
@@ -48,8 +48,8 @@ public class ConsoleUI implements UI {
     }
 
     @Override
-    public void showPlayerGoldCount(String currentPlayerName, int currentPlayerGoldCoins) {
-        out.println(currentPlayerName + " now has " + currentPlayerGoldCoins + " Gold Coins.");
+    public void showPlayerGoldCount(Player player) {
+        out.println(player.getPlayerName() + " now has " + player.getPurse() + " Gold Coins.");
     }
 
     @Override
@@ -58,8 +58,8 @@ public class ConsoleUI implements UI {
     }
 
     @Override
-    public void showPlayerSentToPenaltyBox(String currentPlayerName) {
-        out.println(currentPlayerName + " was sent to the penalty box");
+    public void showPlayerSentToPenaltyBox(Player player) {
+        out.println(player.getPlayerName() + " was sent to the penalty box");
     }
 
     @Override
