@@ -144,13 +144,10 @@ public class Game {
 	public boolean wasCorrectlyAnswered(PrintStream out) {
 		if (inPenaltyBox[currentPlayer]){
 			if (isGettingOutOfPenaltyBox) {
-				out.println("Answer was correct!!!!");
+				showCorrectAnswer(out);
 				purses[currentPlayer]++;
-				out.println(players.get(currentPlayer)
-						+ " now has "
-						+ purses[currentPlayer]
-						+ " Gold Coins.");
-				
+				showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer], out);
+
 				boolean winner = didPlayerWin();
 				currentPlayer++;
 				if (currentPlayer == players.size()) currentPlayer = 0;
@@ -165,14 +162,11 @@ public class Game {
 			
 			
 		} else {
-		
-			out.println("Answer was corrent!!!!");
+
+			showCorrectAnswer(out);
 			purses[currentPlayer]++;
-			out.println(players.get(currentPlayer)
-					+ " now has "
-					+ purses[currentPlayer]
-					+ " Gold Coins.");
-			
+			showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer], out);
+
 			boolean winner = didPlayerWin();
 			currentPlayer++;
 			if (currentPlayer == players.size()) currentPlayer = 0;
@@ -180,15 +174,31 @@ public class Game {
 			return winner;
 		}
 	}
-	
+
+	private void showPlayerGoldCount(String currentPlayerName, int currentPlayerGoldCoins, PrintStream out) {
+		out.println(currentPlayerName + " now has " + currentPlayerGoldCoins + " Gold Coins.");
+	}
+
+	private void showCorrectAnswer(PrintStream out) {
+		out.println("Answer was correct!!!!");
+	}
+
 	public boolean wrongAnswer(PrintStream out){
-		out.println("Question was incorrectly answered");
-		out.println(players.get(currentPlayer)+ " was sent to the penalty box");
+		showIncorrectAnswer(out);
+		showPlayerSentToPenaltyBox(players.get(currentPlayer), out);
 		inPenaltyBox[currentPlayer] = true;
 		
 		currentPlayer++;
 		if (currentPlayer == players.size()) currentPlayer = 0;
 		return true;
+	}
+
+	private void showPlayerSentToPenaltyBox(String currentPlayerName, PrintStream out) {
+		out.println(currentPlayerName + " was sent to the penalty box");
+	}
+
+	private void showIncorrectAnswer(PrintStream out) {
+		out.println("Question was incorrectly answered");
 	}
 
 
