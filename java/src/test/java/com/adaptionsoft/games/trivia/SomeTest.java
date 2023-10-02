@@ -1,17 +1,10 @@
 package com.adaptionsoft.games.trivia;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.adaptionsoft.games.uglytrivia.ConsoleUI;
 import com.adaptionsoft.games.uglytrivia.Game;
 import com.adaptionsoft.games.uglytrivia.UI;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -20,27 +13,38 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class SomeTest {
     private static final List<TestFile> testFiles = Arrays.asList(
-            TestFile.of("src/test/resources/input.txt", "src/test/resources/output.txt"),
-            TestFile.of("src/test/resources/input2.txt", "src/test/resources/output2.txt")
+        TestFile.of("src/test/resources/input.txt", "src/test/resources/output.txt"),
+        TestFile.of("src/test/resources/input2.txt", "src/test/resources/output2.txt")
     );
 
     @RequiredArgsConstructor(staticName = "of")
     static class TestFile {
-        @NonNull String input;
-        @NonNull String output;
+        @NonNull
+        String input;
+
+        @NonNull
+        String output;
     }
 
     @RequiredArgsConstructor(staticName = "of")
     @Getter
     @ToString
     static class Parameter {
-        @NonNull int roll;
-        @NonNull boolean correct;
+        @NonNull
+        int roll;
+
+        @NonNull
+        boolean correct;
     }
 
     public static Stream<Arguments> provideParameters() throws IOException {

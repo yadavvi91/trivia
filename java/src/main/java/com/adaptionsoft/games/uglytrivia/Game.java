@@ -35,8 +35,6 @@ public class Game {
     }
 
     public boolean add(String playerName) {
-
-
         players.add(playerName);
         places[howManyPlayers()] = 0;
         purses[howManyPlayers()] = 0;
@@ -69,9 +67,7 @@ public class Game {
                 isGettingOutOfPenaltyBox = false;
                 ui.showPlayerNotGettingOutOfPenaltyBox(players.get(currentPlayer));
             }
-
         } else {
-
             places[currentPlayer] = places[currentPlayer] + roll;
             if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 
@@ -80,7 +76,6 @@ public class Game {
             String question = askQuestion();
             ui.showQuestion(question);
         }
-
     }
 
     private String askQuestion() {
@@ -130,10 +125,7 @@ public class Game {
                 if (currentPlayer == players.size()) currentPlayer = 0;
                 return true;
             }
-
-
         } else {
-
             ui.showCorrectAnswer();
             purses[currentPlayer]++;
             ui.showPlayerGoldCount(players.get(currentPlayer), purses[currentPlayer]);
@@ -155,7 +147,6 @@ public class Game {
         if (currentPlayer == players.size()) currentPlayer = 0;
         return true;
     }
-
 
     private boolean didPlayerWin() {
         return !(purses[currentPlayer] == 6);
