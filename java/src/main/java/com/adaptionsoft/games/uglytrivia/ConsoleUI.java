@@ -3,7 +3,6 @@ package com.adaptionsoft.games.uglytrivia;
 import java.io.PrintStream;
 
 public class ConsoleUI implements UI {
-
     private PrintStream out;
 
     public ConsoleUI(PrintStream out) {

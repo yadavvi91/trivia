@@ -8,6 +8,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.9.2</version>
@@ -40,6 +46,45 @@
                     <source>11</source>
                     <target>11</target>
                     <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.hubspot.maven.plugins</groupId>
+                <artifactId>prettier-maven-plugin</artifactId>
+                <!-- Find the latest version at https://github.com/jhipster/prettier-java/releases -->
+                <version>0.16</version>
+                <configuration>
+                    <printWidth>120</printWidth>
+                    <tabWidth>4</tabWidth>
+                    <useTabs>false</useTabs>
+                    <ignoreConfigFile>true</ignoreConfigFile>
+                    <ignoreEditorConfig>true</ignoreEditorConfig>
+                    <!-- Use <inputGlobs> to override the default input patterns -->
+                    <inputGlobs>
+                        <inputGlob>src/main/java/**/*.java</inputGlob>
+                        <inputGlob>src/test/java/**/*.java</inputGlob>
+                    </inputGlobs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetClasses>
+                        <param>com.adaptionsoft.games.uglytrivia*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.adaptionsoft.games.trivia*</param>
+                    </targetTests>
                 </configuration>
             </plugin>
         </plugins>

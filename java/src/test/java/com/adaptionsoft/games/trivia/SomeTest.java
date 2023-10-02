@@ -1,41 +1,73 @@
 package com.adaptionsoft.games.trivia;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.adaptionsoft.games.uglytrivia.ConsoleUI;
 import com.adaptionsoft.games.uglytrivia.Game;
 import com.adaptionsoft.games.uglytrivia.UI;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class SomeTest {
+    private static final List<TestFile> testFiles = Arrays.asList(
+        TestFile.of("src/test/resources/input.txt", "src/test/resources/output.txt"),
+        TestFile.of("src/test/resources/input2.txt", "src/test/resources/output2.txt")
+    );
+
+    @RequiredArgsConstructor(staticName = "of")
+    static class TestFile {
+        @NonNull
+        String input;
+
+        @NonNull
+        String output;
+    }
+
+    @RequiredArgsConstructor(staticName = "of")
+    @Getter
+    @ToString
+    static class Parameter {
+        @NonNull
+        int roll;
+
+        @NonNull
+        boolean correct;
+    }
 
     public static Stream<Arguments> provideParameters() throws IOException {
-        File file = new File("src/test/resources/input.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        List<String> playerNames = List.of(reader.readLine().split(" "));
+        List<Arguments> arguments = new ArrayList<>();
+        for (TestFile testFile : testFiles) {
+            File file = new File(testFile.input);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            List<String> playerNames = List.of(reader.readLine().split(" "));
 
-        List<Parameter> parameters = new ArrayList<>();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] params = line.trim().split(" ");
-            int roll = Integer.parseInt(params[0]);
-            boolean correct = params[1].equals("correct") ? true : params[1].equals("incorrect") ? false : false;
-            parameters.add(new Parameter(roll, correct));
+            List<Parameter> parameters = new ArrayList<>();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] params = line.trim().split(" ");
+                int roll = Integer.parseInt(params[0]);
+                boolean correct = params[1].equals("correct") ? true : params[1].equals("incorrect") ? false : false;
+                parameters.add(Parameter.of(roll, correct));
+            }
+
+            String expectedOutput = Files.readString(Path.of(testFile.output), StandardCharsets.UTF_8);
+            arguments.add(Arguments.of(playerNames, parameters, expectedOutput));
         }
 
-        String expectedOutput = Files.readString(Path.of("src/test/resources/output.txt"), StandardCharsets.UTF_8);
-        return Stream.of(Arguments.of(playerNames, parameters, expectedOutput));
+        return Stream.of(arguments.toArray(Arguments[]::new));
     }
 
     @ParameterizedTest
