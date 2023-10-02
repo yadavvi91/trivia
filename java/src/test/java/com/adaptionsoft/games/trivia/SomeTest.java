@@ -4,8 +4,10 @@ package com.adaptionsoft.games.trivia;
 import com.adaptionsoft.games.uglytrivia.ConsoleUI;
 import com.adaptionsoft.games.uglytrivia.Game;
 import com.adaptionsoft.games.uglytrivia.UI;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,6 +35,14 @@ public class SomeTest {
         @NonNull String output;
     }
 
+    @RequiredArgsConstructor(staticName = "of")
+    @Getter
+    @ToString
+    static class Parameter {
+        @NonNull int roll;
+        @NonNull boolean correct;
+    }
+
     public static Stream<Arguments> provideParameters() throws IOException {
         List<Arguments> arguments = new ArrayList<>();
         for (TestFile testFile : testFiles) {
@@ -46,7 +56,7 @@ public class SomeTest {
                 String[] params = line.trim().split(" ");
                 int roll = Integer.parseInt(params[0]);
                 boolean correct = params[1].equals("correct") ? true : params[1].equals("incorrect") ? false : false;
-                parameters.add(new Parameter(roll, correct));
+                parameters.add(Parameter.of(roll, correct));
             }
 
             String expectedOutput = Files.readString(Path.of(testFile.output), StandardCharsets.UTF_8);
