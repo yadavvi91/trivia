@@ -31,20 +31,4 @@ public class Player {
         return roll % 2 != 0;
     }
 
-    public boolean shouldDoSomething() {
-        if (isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
-            return true;
-        }
-        else if (isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
-            return false;
-        }
-        else if (!isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
-            return true;
-        }
-        else if (!isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
-            return true;
-        }
-
-        return false;
-    }
 }

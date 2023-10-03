@@ -142,7 +142,6 @@ Chet now has 5 Gold Coins.
 
 Pat is the current player
 They have rolled a 3
-Pat is getting out of the penalty box
 Pat's new location is 10
 The category is Sports
 Sports Question 6

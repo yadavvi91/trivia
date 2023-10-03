@@ -68,12 +68,13 @@ public class Game {
         ui.showDiceRoll(currentPlayer);
 
         if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            currentPlayer.setInPenaltyBox(false);
             ui.showPlayerOutOfPenaltyBox(currentPlayer);
         } else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
         }
 
-        if (currentPlayer.shouldDoSomething()) {
+        if (!currentPlayer.isInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
             currentPlayer.moveToNextPlace(roll);
             ui.showNewPlayerLocation(currentPlayer);
             ui.showCurrentCategory(currentCategory());
@@ -86,7 +87,7 @@ public class Game {
      * the game should exit. Otherwise, the game should go on.
      */
     public boolean wasCorrectlyAnswered() {
-        if (currentPlayer.shouldDoSomething()) {
+        if (!currentPlayer.isInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showCorrectAnswer();
 
             currentPlayer.incrementPurse();
@@ -94,6 +95,7 @@ public class Game {
 
             if (currentPlayer.didPlayerWin()) return false;
         }
+
         currentPlayer = getNextCurrentPlayer();
         return true;
     }
@@ -121,5 +123,4 @@ public class Game {
         }
         return players.get((foundIndex + 1) % players.size());
     }
-
 }

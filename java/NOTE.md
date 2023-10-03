@@ -81,4 +81,44 @@ public boolean wrongAnswer() {
     return true;
 }
 ```
+---
 
+This can be further refactored like so -
+
+```java
+public void roll(int roll) {
+    if (currentPlayer == null) currentPlayer = players.getFirst();
+    currentPlayer.setRoll(roll);
+
+    if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+        currentPlayer.setInPenaltyBox(false);
+    }
+
+    if (!currentPlayer.isInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
+        currentPlayer.moveToNextPlace(roll);
+    }
+}
+
+/**
+ * @return Should program continue. If the {@code currentPlayer} wins the game,
+ * the game should exit. Otherwise, the game should go on.
+ */
+public boolean wasCorrectlyAnswered() {
+    if (!currentPlayer.isInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
+        currentPlayer.incrementPurse();
+        if (currentPlayer.didPlayerWin()) return false;
+    }
+
+    currentPlayer = getNextCurrentPlayer();
+    return true;
+}
+
+/**
+ * @return Should program continue. In case of {@code wrongAnswer}, it should always.
+ */
+public boolean wrongAnswer() {
+    currentPlayer.setInPenaltyBox(true);
+    currentPlayer = getNextCurrentPlayer();
+    return true;
+}
+```
