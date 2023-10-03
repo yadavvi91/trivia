@@ -65,12 +65,11 @@ public class Game {
     public void roll(int roll) {
         if (currentPlayer == null) currentPlayer = players.getFirst();
         currentPlayer.setRoll(roll);
-        ui.showDiceRoll(currentPlayer, roll);
+        ui.showDiceRoll(currentPlayer);
 
         if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showPlayerOutOfPenaltyBox(currentPlayer);
-        }
-        else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+        } else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
         }
 
@@ -89,6 +88,7 @@ public class Game {
     public boolean wasCorrectlyAnswered() {
         if (currentPlayer.shouldDoSomething()) {
             ui.showCorrectAnswer();
+
             currentPlayer.incrementPurse();
             ui.showPlayerGoldCount(currentPlayer);
 
@@ -103,8 +103,9 @@ public class Game {
      */
     public boolean wrongAnswer() {
         ui.showIncorrectAnswer();
-        ui.showPlayerSentToPenaltyBox(currentPlayer);
+
         currentPlayer.setInPenaltyBox(true);
+        ui.showPlayerSentToPenaltyBox(currentPlayer);
 
         currentPlayer = getNextCurrentPlayer();
         return true;
