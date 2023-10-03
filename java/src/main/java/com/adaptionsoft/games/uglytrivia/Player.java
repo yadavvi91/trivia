@@ -32,6 +32,9 @@ public class Player {
     }
 
     public boolean shouldDoSomething() {
+        // This could be simplified as
+        //         return !isInPenaltyBox() || isGettingOutOfPenaltyBox();
+        // and then be inlined in Game class
         if (isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
             return true;
         }
