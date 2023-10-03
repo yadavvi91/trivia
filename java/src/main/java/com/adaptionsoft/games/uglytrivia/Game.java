@@ -61,7 +61,11 @@ public class Game {
         if (place == 2) return SPORTS;
         if (place == 6) return SPORTS;
         if (place == 10) return SPORTS;
-        return Category.ROCK;
+        if (place == 3) return ROCK;
+        if (place == 7) return ROCK;
+        if (place == 11) return ROCK;
+
+        throw new IllegalArgumentException("There can be only 12 valid locations");
     }
 
     public void roll(int roll) {
