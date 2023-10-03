@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.adaptionsoft.games.uglytrivia.Category.*;
+
 public class Game {
     private final UI ui;
-    private final String ROCK = "Rock";
-    private final String SPORTS = "Sports";
-    private final String SCIENCE = "Science";
-    private final String POP = "Pop";
 
     List<Player> players = new ArrayList<>();
     Player currentPlayer;
@@ -45,24 +43,24 @@ public class Game {
     }
 
     private String getQuestion() {
-        if (currentCategory() == Category.POP) return popQuestions.removeFirst();
-        if (currentCategory() == Category.SCIENCE) return scienceQuestions.removeFirst();
-        if (currentCategory() == Category.SPORTS) return sportsQuestions.removeFirst();
-        if (currentCategory() == Category.ROCK) return rockQuestions.removeFirst();
+        if (currentCategory() == POP) return popQuestions.removeFirst();
+        if (currentCategory() == SCIENCE) return scienceQuestions.removeFirst();
+        if (currentCategory() == SPORTS) return sportsQuestions.removeFirst();
+        if (currentCategory() == ROCK) return rockQuestions.removeFirst();
         return rockQuestions.removeFirst();
     }
 
     private Category currentCategory() {
         int place = currentPlayer.getPlace();
-        if (place == 0) return Category.POP;
-        if (place == 4) return Category.POP;
-        if (place == 8) return Category.POP;
-        if (place == 1) return Category.SCIENCE;
-        if (place == 5) return Category.SCIENCE;
-        if (place == 9) return Category.SCIENCE;
-        if (place == 2) return Category.SPORTS;
-        if (place == 6) return Category.SPORTS;
-        if (place == 10) return Category.SPORTS;
+        if (place == 0) return POP;
+        if (place == 4) return POP;
+        if (place == 8) return POP;
+        if (place == 1) return SCIENCE;
+        if (place == 5) return SCIENCE;
+        if (place == 9) return SCIENCE;
+        if (place == 2) return SPORTS;
+        if (place == 6) return SPORTS;
+        if (place == 10) return SPORTS;
         return Category.ROCK;
     }
 
