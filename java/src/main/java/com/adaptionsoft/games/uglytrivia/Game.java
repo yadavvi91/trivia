@@ -11,18 +11,6 @@ public class Game {
     private final String SCIENCE = "Science";
     private final String POP = "Pop";
 
-    static enum Category {
-        POP("Pop"),
-        SPORTS("Sports"),
-        SCIENCE("Science"),
-        ROCK("Rock");
-
-        final String type;
-        Category(String type) {
-            this.type = type;
-        }
-    }
-
     List<Player> players = new ArrayList<>();
     Player currentPlayer;
 
@@ -57,25 +45,25 @@ public class Game {
     }
 
     private String getQuestion() {
-        if (currentCategory().equalsIgnoreCase(POP)) return popQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase(SCIENCE)) return scienceQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase(SPORTS)) return sportsQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase(ROCK)) return rockQuestions.removeFirst();
+        if (currentCategory() == Category.POP) return popQuestions.removeFirst();
+        if (currentCategory() == Category.SCIENCE) return scienceQuestions.removeFirst();
+        if (currentCategory() == Category.SPORTS) return sportsQuestions.removeFirst();
+        if (currentCategory() == Category.ROCK) return rockQuestions.removeFirst();
         return rockQuestions.removeFirst();
     }
 
-    private String currentCategory() {
+    private Category currentCategory() {
         int place = currentPlayer.getPlace();
-        if (place == 0) return POP;
-        if (place == 4) return POP;
-        if (place == 8) return POP;
-        if (place == 1) return SCIENCE;
-        if (place == 5) return SCIENCE;
-        if (place == 9) return SCIENCE;
-        if (place == 2) return SPORTS;
-        if (place == 6) return SPORTS;
-        if (place == 10) return SPORTS;
-        return ROCK;
+        if (place == 0) return Category.POP;
+        if (place == 4) return Category.POP;
+        if (place == 8) return Category.POP;
+        if (place == 1) return Category.SCIENCE;
+        if (place == 5) return Category.SCIENCE;
+        if (place == 9) return Category.SCIENCE;
+        if (place == 2) return Category.SPORTS;
+        if (place == 6) return Category.SPORTS;
+        if (place == 10) return Category.SPORTS;
+        return Category.ROCK;
     }
 
     public void roll(int roll) {
