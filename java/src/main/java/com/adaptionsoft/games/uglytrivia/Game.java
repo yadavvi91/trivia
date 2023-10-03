@@ -95,18 +95,14 @@ public class Game {
      */
     public boolean wasCorrectlyAnswered() {
         if (currentPlayer.shouldDoSomething()) {
-            doSomething();
+            ui.showCorrectAnswer();
+            currentPlayer.incrementPurse();
+            ui.showPlayerGoldCount(currentPlayer);
 
             if (currentPlayer.didPlayerWin()) return false;
         }
         currentPlayer = getNextCurrentPlayer();
         return true;
-    }
-
-    private void doSomething() {
-        ui.showCorrectAnswer();
-        currentPlayer.incrementPurse();
-        ui.showPlayerGoldCount(currentPlayer);
     }
 
     /**
