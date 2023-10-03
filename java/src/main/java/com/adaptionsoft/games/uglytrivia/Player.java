@@ -24,4 +24,21 @@ public class Player {
     boolean didPlayerWin() {
         return getPurse() == 6;
     }
+
+    public boolean shouldDoSomething() {
+        if (inPenaltyBox && gettingOutOfPenaltyBox) {
+            return true;
+        }
+        else if (inPenaltyBox && !gettingOutOfPenaltyBox) {
+            return false;
+        }
+        else if (!inPenaltyBox && gettingOutOfPenaltyBox) {
+            return true;
+        }
+        else if (!inPenaltyBox && !gettingOutOfPenaltyBox) {
+            return true;
+        }
+
+        return false;
+    }
 }
