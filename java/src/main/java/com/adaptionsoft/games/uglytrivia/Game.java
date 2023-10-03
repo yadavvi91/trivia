@@ -6,6 +6,22 @@ import java.util.List;
 
 public class Game {
     private final UI ui;
+    private final String ROCK = "Rock";
+    private final String SPORTS = "Sports";
+    private final String SCIENCE = "Science";
+    private final String POP = "Pop";
+
+    static enum Category {
+        POP("Pop"),
+        SPORTS("Sports"),
+        SCIENCE("Science"),
+        ROCK("Rock");
+
+        final String type;
+        Category(String type) {
+            this.type = type;
+        }
+    }
 
     List<Player> players = new ArrayList<>();
     Player currentPlayer;
@@ -41,25 +57,25 @@ public class Game {
     }
 
     private String getQuestion() {
-        if (currentCategory().equalsIgnoreCase("Pop")) return popQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase("Science")) return scienceQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase("Sports")) return sportsQuestions.removeFirst();
-        // if (currentCategory().equalsIgnoreCase("Rock")) rockQuestions.removeFirst();
+        if (currentCategory().equalsIgnoreCase(POP)) return popQuestions.removeFirst();
+        if (currentCategory().equalsIgnoreCase(SCIENCE)) return scienceQuestions.removeFirst();
+        if (currentCategory().equalsIgnoreCase(SPORTS)) return sportsQuestions.removeFirst();
+        if (currentCategory().equalsIgnoreCase(ROCK)) return rockQuestions.removeFirst();
         return rockQuestions.removeFirst();
     }
 
     private String currentCategory() {
         int place = currentPlayer.getPlace();
-        if (place == 0) return "Pop";
-        if (place == 4) return "Pop";
-        if (place == 8) return "Pop";
-        if (place == 1) return "Science";
-        if (place == 5) return "Science";
-        if (place == 9) return "Science";
-        if (place == 2) return "Sports";
-        if (place == 6) return "Sports";
-        if (place == 10) return "Sports";
-        return "Rock";
+        if (place == 0) return POP;
+        if (place == 4) return POP;
+        if (place == 8) return POP;
+        if (place == 1) return SCIENCE;
+        if (place == 5) return SCIENCE;
+        if (place == 9) return SCIENCE;
+        if (place == 2) return SPORTS;
+        if (place == 6) return SPORTS;
+        if (place == 10) return SPORTS;
+        return ROCK;
     }
 
     public void roll(int roll) {
