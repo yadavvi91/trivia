@@ -68,8 +68,6 @@ public class Game {
         ui.showDiceRoll(currentPlayer);
 
         if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
-            // Once the player-rolls-an-odd-number, he should no longer be in the penalty box.
-            // Thus, I believe the original implementation had this bug
             currentPlayer.setInPenaltyBox(false);
             ui.showPlayerOutOfPenaltyBox(currentPlayer);
         } else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
@@ -125,5 +123,4 @@ public class Game {
         }
         return players.get((foundIndex + 1) % players.size());
     }
-
 }
