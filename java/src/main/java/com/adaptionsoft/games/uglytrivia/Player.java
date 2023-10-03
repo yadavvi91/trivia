@@ -31,23 +31,4 @@ public class Player {
         return roll % 2 != 0;
     }
 
-    public boolean shouldDoSomething() {
-        // This could be simplified as
-        //         return !isInPenaltyBox() || isGettingOutOfPenaltyBox();
-        // and then be inlined in Game class
-        if (isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
-            return true;
-        }
-        else if (isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
-            return false;
-        }
-        else if (!isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
-            return true;
-        }
-        else if (!isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
-            return true;
-        }
-
-        return false;
-    }
 }

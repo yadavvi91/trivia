@@ -76,7 +76,7 @@ public class Game {
             ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
         }
 
-        if (currentPlayer.shouldDoSomething()) {
+        if (!currentPlayer.isInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
             currentPlayer.moveToNextPlace(roll);
             ui.showNewPlayerLocation(currentPlayer);
             ui.showCurrentCategory(currentCategory());
@@ -89,7 +89,7 @@ public class Game {
      * the game should exit. Otherwise, the game should go on.
      */
     public boolean wasCorrectlyAnswered() {
-        if (currentPlayer.shouldDoSomething()) {
+        if (!currentPlayer.isInPenaltyBox() || currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showCorrectAnswer();
 
             currentPlayer.incrementPurse();
