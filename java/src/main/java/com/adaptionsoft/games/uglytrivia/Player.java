@@ -48,4 +48,21 @@ public class Player {
         return false;
     }
 
+    public boolean shouldDoSomethingAfterRoll() {
+        if (isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
+            return true;
+        }
+        else if (isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
+            return false;
+        }
+        else if (!isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
+            return true;
+        }
+        else if (!isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

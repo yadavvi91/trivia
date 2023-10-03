@@ -47,21 +47,13 @@ public class Game {
 
         if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showPlayerOutOfPenaltyBox(currentPlayer);
-
-            currentPlayer.moveToNextPlace(roll);
-
-            showUIAfterRoll();
         }
         else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
         }
-        else if (!currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
-            currentPlayer.moveToNextPlace(roll);
 
-            showUIAfterRoll();
-        } else if (!currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+        if (currentPlayer.shouldDoSomethingAfterRoll()) {
             currentPlayer.moveToNextPlace(roll);
-
             showUIAfterRoll();
         }
     }
