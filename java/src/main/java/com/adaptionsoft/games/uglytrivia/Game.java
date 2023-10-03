@@ -43,11 +43,12 @@ public class Game {
     }
 
     private String getQuestion() {
-        if (currentCategory() == POP) return popQuestions.removeFirst();
-        if (currentCategory() == SCIENCE) return scienceQuestions.removeFirst();
-        if (currentCategory() == SPORTS) return sportsQuestions.removeFirst();
-        if (currentCategory() == ROCK) return rockQuestions.removeFirst();
-        return rockQuestions.removeFirst();
+        return switch (currentCategory()) {
+            case POP -> popQuestions.removeFirst();
+            case SCIENCE -> scienceQuestions.removeFirst();
+            case SPORTS -> sportsQuestions.removeFirst();
+            case ROCK -> rockQuestions.removeFirst();
+        };
     }
 
     private Category currentCategory() {
