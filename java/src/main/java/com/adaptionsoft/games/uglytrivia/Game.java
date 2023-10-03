@@ -68,6 +68,9 @@ public class Game {
         ui.showDiceRoll(currentPlayer);
 
         if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            // Once the player-rolls-an-odd-number, he should no longer be in the penalty box.
+            // Thus, I believe the original implementation had this bug
+            currentPlayer.setInPenaltyBox(false);
             ui.showPlayerOutOfPenaltyBox(currentPlayer);
         } else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
@@ -86,12 +89,6 @@ public class Game {
      * the game should exit. Otherwise, the game should go on.
      */
     public boolean wasCorrectlyAnswered() {
-        // I believe this should be there. Once the player-rolls-an-odd-number and answers correctly,
-        // he should no longer be in the penalty box.
-        // Thus, I believe the original implementation had this bug
-        if (currentPlayer.isGettingOutOfPenaltyBox()) {
-            currentPlayer.setInPenaltyBox(false);
-        }
         if (currentPlayer.shouldDoSomething()) {
             ui.showCorrectAnswer();
 
