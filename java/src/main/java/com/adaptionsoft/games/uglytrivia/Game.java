@@ -53,20 +53,13 @@ public class Game {
 
     private Category currentCategory() {
         int place = currentPlayer.getPlace();
-        if (place == 0) return POP;
-        if (place == 4) return POP;
-        if (place == 8) return POP;
-        if (place == 1) return SCIENCE;
-        if (place == 5) return SCIENCE;
-        if (place == 9) return SCIENCE;
-        if (place == 2) return SPORTS;
-        if (place == 6) return SPORTS;
-        if (place == 10) return SPORTS;
-        if (place == 3) return ROCK;
-        if (place == 7) return ROCK;
-        if (place == 11) return ROCK;
+        if (place > 11 || place < 0) throw new IllegalArgumentException("There can be only 12 valid locations");
 
-        throw new IllegalArgumentException("There can be only 12 valid locations");
+        if (place % 4 == 0) return POP;
+        else if (place % 4 == 1) return SCIENCE;
+        else if (place % 4 == 2) return SPORTS;
+        // else if (place % 4 == 3) return ROCK;
+        else return ROCK;
     }
 
     public void roll(int roll) {
