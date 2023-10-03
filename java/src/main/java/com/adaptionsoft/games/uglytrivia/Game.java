@@ -30,7 +30,7 @@ public class Game {
     }
 
     public boolean add(String playerName) {
-        Player player = Player.of(playerName, false, false, 0, 0);
+        Player player = Player.of(playerName);
         players.add(player);
         ui.showAddedPlayer(player, players.size());
         return true;
@@ -38,33 +38,6 @@ public class Game {
 
     public int howManyPlayers() {
         return players.size();
-    }
-
-    public void roll(int roll) {
-        if (currentPlayer == null) currentPlayer = players.getFirst();
-        ui.showDiceRoll(currentPlayer, roll);
-
-        if (currentPlayer.isInPenaltyBox()) {
-            if (roll % 2 != 0) {
-                currentPlayer.setGettingOutOfPenaltyBox(true);
-                ui.showPlayerOutOfPenaltyBox(currentPlayer);
-
-                currentPlayer.moveToNextPlace(roll);
-
-                ui.showNewPlayerLocation(currentPlayer);
-                ui.showCurrentCategory(currentCategory());
-                ui.showQuestion(getQuestion());
-            } else {
-                currentPlayer.setGettingOutOfPenaltyBox(false);
-                ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
-            }
-        } else {
-            currentPlayer.moveToNextPlace(roll);
-
-            ui.showNewPlayerLocation(currentPlayer);
-            ui.showCurrentCategory(currentCategory());
-            ui.showQuestion(getQuestion());
-        }
     }
 
     private String getQuestion() {
@@ -89,35 +62,40 @@ public class Game {
         return "Rock";
     }
 
+    public void roll(int roll) {
+        if (currentPlayer == null) currentPlayer = players.getFirst();
+        currentPlayer.setRoll(roll);
+        ui.showDiceRoll(currentPlayer);
+
+        if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showPlayerOutOfPenaltyBox(currentPlayer);
+        } else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
+        }
+
+        if (currentPlayer.shouldDoSomething()) {
+            currentPlayer.moveToNextPlace(roll);
+            ui.showNewPlayerLocation(currentPlayer);
+            ui.showCurrentCategory(currentCategory());
+            ui.showQuestion(getQuestion());
+        }
+    }
+
     /**
      * @return Should program continue. If the {@code currentPlayer} wins the game,
      * the game should exit. Otherwise, the game should go on.
      */
     public boolean wasCorrectlyAnswered() {
-        if (currentPlayer.isInPenaltyBox()) {
-            if (currentPlayer.isGettingOutOfPenaltyBox()) {
-                ui.showCorrectAnswer();
-                currentPlayer.incrementPurse();
-                ui.showPlayerGoldCount(currentPlayer);
-
-                if (currentPlayer.didPlayerWin()) return false;
-
-                currentPlayer = getNextCurrentPlayer();
-                return true;
-            } else {
-                currentPlayer = getNextCurrentPlayer();
-                return true;
-            }
-        } else {
+        if (currentPlayer.shouldDoSomething()) {
             ui.showCorrectAnswer();
+
             currentPlayer.incrementPurse();
             ui.showPlayerGoldCount(currentPlayer);
 
             if (currentPlayer.didPlayerWin()) return false;
-
-            currentPlayer = getNextCurrentPlayer();
-            return true;
         }
+        currentPlayer = getNextCurrentPlayer();
+        return true;
     }
 
     /**
@@ -125,8 +103,9 @@ public class Game {
      */
     public boolean wrongAnswer() {
         ui.showIncorrectAnswer();
-        ui.showPlayerSentToPenaltyBox(currentPlayer);
+
         currentPlayer.setInPenaltyBox(true);
+        ui.showPlayerSentToPenaltyBox(currentPlayer);
 
         currentPlayer = getNextCurrentPlayer();
         return true;

@@ -11,7 +11,7 @@ public interface UI {
 
     void showPlayerOutOfPenaltyBox(Player player);
 
-    void showDiceRoll(Player player, int roll);
+    void showDiceRoll(Player player);
 
     void showQuestion(String question);
 
