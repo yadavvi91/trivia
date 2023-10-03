@@ -45,27 +45,31 @@ public class Game {
         currentPlayer.setRoll(roll);
         ui.showDiceRoll(currentPlayer, roll);
 
-        if (currentPlayer.isInPenaltyBox()) {
-            if (roll % 2 != 0) {
-                currentPlayer.setGettingOutOfPenaltyBox(true);
-                ui.showPlayerOutOfPenaltyBox(currentPlayer);
+        if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showPlayerOutOfPenaltyBox(currentPlayer);
 
-                currentPlayer.moveToNextPlace(roll);
-
-                ui.showNewPlayerLocation(currentPlayer);
-                ui.showCurrentCategory(currentCategory());
-                ui.showQuestion(getQuestion());
-            } else {
-                currentPlayer.setGettingOutOfPenaltyBox(false);
-                ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
-            }
-        } else {
             currentPlayer.moveToNextPlace(roll);
 
-            ui.showNewPlayerLocation(currentPlayer);
-            ui.showCurrentCategory(currentCategory());
-            ui.showQuestion(getQuestion());
+            showUIAfterRoll();
         }
+        else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
+        }
+        else if (!currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            currentPlayer.moveToNextPlace(roll);
+
+            showUIAfterRoll();
+        } else if (!currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+            currentPlayer.moveToNextPlace(roll);
+
+            showUIAfterRoll();
+        }
+    }
+
+    private void showUIAfterRoll() {
+        ui.showNewPlayerLocation(currentPlayer);
+        ui.showCurrentCategory(currentCategory());
+        ui.showQuestion(getQuestion());
     }
 
     private String getQuestion() {

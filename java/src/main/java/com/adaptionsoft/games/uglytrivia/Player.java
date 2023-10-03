@@ -8,14 +8,13 @@ import lombok.*;
 @ToString
 public class Player {
     @NonNull String playerName;
-    boolean gettingOutOfPenaltyBox = false;
     boolean inPenaltyBox = false;
     int place = 0;
     int purse = 0;
     int roll = 0;
 
     public void moveToNextPlace(int roll) {
-        this.setPlace((getPlace() + roll) % 12);
+        setPlace((place + roll) % 12);
     }
 
     public void incrementPurse() {
@@ -26,20 +25,27 @@ public class Player {
         return getPurse() == 6;
     }
 
+    public boolean isGettingOutOfPenaltyBox() {
+        // If the user was in a penalty box, then he rolls an odd number,
+        // he is getting out of the penalty box
+        return roll % 2 != 0;
+    }
+
     public boolean shouldDoSomething() {
-        if (inPenaltyBox && gettingOutOfPenaltyBox) {
+        if (isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
             return true;
         }
-        else if (inPenaltyBox && !gettingOutOfPenaltyBox) {
+        else if (isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
             return false;
         }
-        else if (!inPenaltyBox && gettingOutOfPenaltyBox) {
+        else if (!isInPenaltyBox() && isGettingOutOfPenaltyBox()) {
             return true;
         }
-        else if (!inPenaltyBox && !gettingOutOfPenaltyBox) {
+        else if (!isInPenaltyBox() && !isGettingOutOfPenaltyBox()) {
             return true;
         }
 
         return false;
     }
+
 }
