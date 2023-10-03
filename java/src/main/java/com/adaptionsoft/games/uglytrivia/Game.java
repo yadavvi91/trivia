@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.adaptionsoft.games.uglytrivia.Category.*;
+
 public class Game {
     private final UI ui;
 
@@ -41,25 +43,24 @@ public class Game {
     }
 
     private String getQuestion() {
-        if (currentCategory().equalsIgnoreCase("Pop")) return popQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase("Science")) return scienceQuestions.removeFirst();
-        if (currentCategory().equalsIgnoreCase("Sports")) return sportsQuestions.removeFirst();
-        // if (currentCategory().equalsIgnoreCase("Rock")) rockQuestions.removeFirst();
-        return rockQuestions.removeFirst();
+        return switch (currentCategory()) {
+            case POP -> popQuestions.removeFirst();
+            case SCIENCE -> scienceQuestions.removeFirst();
+            case SPORTS -> sportsQuestions.removeFirst();
+            case ROCK -> rockQuestions.removeFirst();
+        };
     }
 
-    private String currentCategory() {
+    private Category currentCategory() {
         int place = currentPlayer.getPlace();
-        if (place == 0) return "Pop";
-        if (place == 4) return "Pop";
-        if (place == 8) return "Pop";
-        if (place == 1) return "Science";
-        if (place == 5) return "Science";
-        if (place == 9) return "Science";
-        if (place == 2) return "Sports";
-        if (place == 6) return "Sports";
-        if (place == 10) return "Sports";
-        return "Rock";
+        if (place > 11 || place < 0) throw new IllegalArgumentException("There can be only 12 valid locations");
+
+        return switch (place % 4) {
+            case 0 -> POP;
+            case 1 -> SCIENCE;
+            case 2 -> SPORTS;
+            default -> ROCK;
+        };
     }
 
     public void roll(int roll) {

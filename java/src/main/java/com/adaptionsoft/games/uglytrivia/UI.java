@@ -19,7 +19,7 @@ public interface UI {
 
     void showIncorrectAnswer();
 
-    void showCurrentCategory(String currentCategory);
+    void showCurrentCategory(Category category);
 
     void showQuestion(String question);
 }

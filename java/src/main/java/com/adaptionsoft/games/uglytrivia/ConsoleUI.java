@@ -58,8 +58,8 @@ public class ConsoleUI implements UI {
     }
 
     @Override
-    public void showCurrentCategory(String currentCategory) {
-        out.println("The category is " + currentCategory);
+    public void showCurrentCategory(Category category) {
+        out.println("The category is " + category.type);
     }
 
     @Override
