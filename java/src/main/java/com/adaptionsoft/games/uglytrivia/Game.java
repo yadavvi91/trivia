@@ -55,11 +55,12 @@ public class Game {
         int place = currentPlayer.getPlace();
         if (place > 11 || place < 0) throw new IllegalArgumentException("There can be only 12 valid locations");
 
-        if (place % 4 == 0) return POP;
-        else if (place % 4 == 1) return SCIENCE;
-        else if (place % 4 == 2) return SPORTS;
-        // else if (place % 4 == 3) return ROCK;
-        else return ROCK;
+        return switch (place % 4) {
+            case 0 -> POP;
+            case 1 -> SCIENCE;
+            case 2 -> SPORTS;
+            default -> ROCK;
+        };
     }
 
     public void roll(int roll) {
