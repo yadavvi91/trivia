@@ -1,9 +1,6 @@
 
 package com.adaptionsoft.games.trivia.runner;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,33 +44,11 @@ public class GameRunner {
 		return arguments;
 	}
 
-	public static void main(String[] args) throws IOException {
-		Game aGame = new Game();
-
-		aGame.add("Chet");
-		aGame.add("Pat");
-		aGame.add("Sue");
-
-		Random rand = new Random();
-
-		do {
-
-			aGame.roll(rand.nextInt(5) + 1);
-
-			if (rand.nextInt(9) == 7) {
-				notAWinner = aGame.wrongAnswer();
-			} else {
-				notAWinner = aGame.wasCorrectlyAnswered();
-			}
-
-
-
-		} while (notAWinner);
-
-		runListOfGames(provideParameters());
-	}
-
 	private static void runListOfGames(List<Input> inputs) throws IOException {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		PrintStream stream = new PrintStream(outStream, true, StandardCharsets.UTF_8);
+
+		System.setOut(stream);
 		for (Input input : inputs) {
 			Game game = new Game();
 			List<String> playerNames = input.playerNames;
@@ -94,7 +69,41 @@ public class GameRunner {
 					if (!notAWinner) break;
 				}
 			}
+
+			String actual = outStream.toString();
+			stream.flush();
+
+			if (!expectedOutput.equalsIgnoreCase(actual)) {
+				System.err.println("Unequal String - \nExpectedOutput: \n" + expectedOutput + "\nActualOutput: \n" + actual);
+				System.err.println("\n\n");
+			}
 		}
+	}
+
+	public static void main(String[] args) throws IOException {
+//		Game aGame = new Game();
+//
+//		aGame.add("Chet");
+//		aGame.add("Pat");
+//		aGame.add("Sue");
+//
+//		Random rand = new Random();
+//
+//		do {
+//
+//			aGame.roll(rand.nextInt(5) + 1);
+//
+//			if (rand.nextInt(9) == 7) {
+//				notAWinner = aGame.wrongAnswer();
+//			} else {
+//				notAWinner = aGame.wasCorrectlyAnswered();
+//			}
+//
+//
+//
+//		} while (notAWinner);
+
+		runListOfGames(provideParameters());
 	}
 
 	static class Input {
