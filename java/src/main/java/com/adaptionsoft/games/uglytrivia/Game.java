@@ -40,30 +40,6 @@ public class Game {
         return players.size();
     }
 
-    public void roll(int roll) {
-        if (currentPlayer == null) currentPlayer = players.getFirst();
-        currentPlayer.setRoll(roll);
-        ui.showDiceRoll(currentPlayer, roll);
-
-        if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
-            ui.showPlayerOutOfPenaltyBox(currentPlayer);
-        }
-        else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
-            ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
-        }
-
-        if (currentPlayer.shouldDoSomethingAfterRoll()) {
-            currentPlayer.moveToNextPlace(roll);
-            showUIAfterRoll();
-        }
-    }
-
-    private void showUIAfterRoll() {
-        ui.showNewPlayerLocation(currentPlayer);
-        ui.showCurrentCategory(currentCategory());
-        ui.showQuestion(getQuestion());
-    }
-
     private String getQuestion() {
         if (currentCategory().equalsIgnoreCase("Pop")) return popQuestions.removeFirst();
         if (currentCategory().equalsIgnoreCase("Science")) return scienceQuestions.removeFirst();
@@ -84,6 +60,26 @@ public class Game {
         if (place == 6) return "Sports";
         if (place == 10) return "Sports";
         return "Rock";
+    }
+
+    public void roll(int roll) {
+        if (currentPlayer == null) currentPlayer = players.getFirst();
+        currentPlayer.setRoll(roll);
+        ui.showDiceRoll(currentPlayer, roll);
+
+        if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showPlayerOutOfPenaltyBox(currentPlayer);
+        }
+        else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
+        }
+
+        if (currentPlayer.shouldDoSomethingAfterRoll()) {
+            currentPlayer.moveToNextPlace(roll);
+            ui.showNewPlayerLocation(currentPlayer);
+            ui.showCurrentCategory(currentCategory());
+            ui.showQuestion(getQuestion());
+        }
     }
 
     /**
