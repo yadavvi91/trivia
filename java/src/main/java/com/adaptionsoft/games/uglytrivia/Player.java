@@ -8,10 +8,11 @@ import lombok.*;
 @ToString
 public class Player {
     @NonNull String playerName;
-    @NonNull boolean gettingOutOfPenaltyBox;
-    @NonNull boolean inPenaltyBox;
-    @NonNull int place;
-    @NonNull int purse;
+    boolean gettingOutOfPenaltyBox = false;
+    boolean inPenaltyBox = false;
+    int place = 0;
+    int purse = 0;
+    int roll = 0;
 
     public void moveToNextPlace(int roll) {
         this.setPlace((getPlace() + roll) % 12);

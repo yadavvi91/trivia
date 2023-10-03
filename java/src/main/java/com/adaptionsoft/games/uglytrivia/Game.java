@@ -30,7 +30,7 @@ public class Game {
     }
 
     public boolean add(String playerName) {
-        Player player = Player.of(playerName, false, false, 0, 0);
+        Player player = Player.of(playerName);
         players.add(player);
         ui.showAddedPlayer(player, players.size());
         return true;
@@ -42,6 +42,7 @@ public class Game {
 
     public void roll(int roll) {
         if (currentPlayer == null) currentPlayer = players.getFirst();
+        currentPlayer.setRoll(roll);
         ui.showDiceRoll(currentPlayer, roll);
 
         if (currentPlayer.isInPenaltyBox()) {
