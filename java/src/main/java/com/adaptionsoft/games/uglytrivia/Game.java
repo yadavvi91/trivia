@@ -94,30 +94,31 @@ public class Game {
      * the game should exit. Otherwise, the game should go on.
      */
     public boolean wasCorrectlyAnswered() {
-        if (currentPlayer.isInPenaltyBox()) {
-            if (currentPlayer.isGettingOutOfPenaltyBox()) {
-                ui.showCorrectAnswer();
-                currentPlayer.incrementPurse();
-                ui.showPlayerGoldCount(currentPlayer);
-
-                if (currentPlayer.didPlayerWin()) return false;
-
-                currentPlayer = getNextCurrentPlayer();
-                return true;
-            } else {
-                currentPlayer = getNextCurrentPlayer();
-                return true;
-            }
-        } else {
+        if (currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
             ui.showCorrectAnswer();
             currentPlayer.incrementPurse();
             ui.showPlayerGoldCount(currentPlayer);
 
             if (currentPlayer.didPlayerWin()) return false;
-
-            currentPlayer = getNextCurrentPlayer();
-            return true;
         }
+        else if (currentPlayer.isInPenaltyBox() && !currentPlayer.isGettingOutOfPenaltyBox()) {
+        }
+        else if (!currentPlayer.isInPenaltyBox() && currentPlayer.isGettingOutOfPenaltyBox()) {
+            ui.showCorrectAnswer();
+            currentPlayer.incrementPurse();
+            ui.showPlayerGoldCount(currentPlayer);
+
+            if (currentPlayer.didPlayerWin()) return false;
+        }
+        else {
+            ui.showCorrectAnswer();
+            currentPlayer.incrementPurse();
+            ui.showPlayerGoldCount(currentPlayer);
+
+            if (currentPlayer.didPlayerWin()) return false;
+        }
+        currentPlayer = getNextCurrentPlayer();
+        return true;
     }
 
     /**
