@@ -74,7 +74,7 @@ public class Game {
             ui.showPlayerNotGettingOutOfPenaltyBox(currentPlayer);
         }
 
-        if (currentPlayer.shouldDoSomethingAfterRoll()) {
+        if (currentPlayer.shouldDoSomething()) {
             currentPlayer.moveToNextPlace(roll);
             ui.showNewPlayerLocation(currentPlayer);
             ui.showCurrentCategory(currentCategory());
